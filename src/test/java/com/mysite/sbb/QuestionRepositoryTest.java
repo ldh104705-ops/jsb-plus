@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,8 +21,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 // 기준 데이터(BaseInitData): 1번 질문 "sbb가 무엇인가요?", 2번 질문 "스프링부트 모델 질문입니다." + 답변 1개
 @ActiveProfiles("test")
 @SpringBootTest
+// @Transactional : 각 테스트를 트랜잭션 안에서 실행하고, 끝나면 "롤백"(없던 일로)한다
+//   비유: 연습장에 쓰고 테스트가 끝나면 지우개로 지운다 → 다음 테스트는 늘 깨끗한 상태에서 시작
+//   → 삭제/수정 테스트가 다른 테스트에 영향을 주지 않는다 (테스트 독립성)
+//   (006-05 실험: 이게 없으면 삭제 테스트가 먼저 돌 때 다른 테스트 5개가 실패했다)
+@Transactional
 // JUnit은 테스트 실행 순서를 보장하지 않는다. (오늘은 마지막이었던 테스트가 내일은 처음일 수 있다)
-// 실험을 위해 @Order가 붙은 테스트(삭제 t7)를 "강제로 먼저" 실행시킨다
+// 삭제 테스트(t7)를 일부러 먼저 실행시켜도 다른 테스트가 통과하는지 계속 확인하기 위해 남겨 둔다
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class QuestionRepositoryTest {
     @Autowired
@@ -79,9 +85,9 @@ class QuestionRepositoryTest {
         assertThat(questions.get(0).getSubject()).isEqualTo("sbb가 무엇인가요?");
     }
 
-    // [실험(실패)] 삭제 테스트가 먼저 실행되면?
-    //   → 1번 질문이 DB에서 "진짜로" 지워진 채로 남는다 (되돌리는 장치가 없음)
-    //   → 1번 질문이 있다고 믿는 t1~t5가 줄줄이 실패한다
+    // [실험(실패), 006-05] 롤백 없이 삭제 테스트가 먼저 실행되면?
+    //   → 1번 질문이 DB에서 "진짜로" 지워진 채로 남아, 1번 질문이 있다고 믿는 t1~t5가 줄줄이 실패했다
+    // [해결, 006-06] 클래스에 @Transactional → 이 테스트가 끝나면 삭제가 롤백되어 1번 질문이 돌아온다
     @Test
     @Order(1)
     @DisplayName("delete : 삭제")
