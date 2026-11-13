@@ -29,3 +29,11 @@
 - 작업: git 저장소 초기화, .gitignore, README, PLAN.md(진행 규칙·로드맵), docs(설계 결정·개선점·분석 자료) 구성
 - 이유: 모든 작업을 작은 커밋으로 기록하고, 설계 결정과 개선점을 쌓아 이해와 영상 제작의 재료로 쓰기 위함
 - 결과: 첫 커밋 생성, GitHub 공개 저장소에 업로드
+
+### 001-01 프로젝트 생성, 완료, Spring Boot 4 프로젝트 생성 및 실행 확인
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/001-01)
+- 교재: 1-02 / 강의: 14163 2강
+- 작업: Spring Initializr로 프로젝트 생성 (Boot 4.1.2, Java 25, Gradle Kotlin DSL, Web·Lombok·DevTools), 설정 파일을 yaml로 변경, 학습용 주석 추가
+- 이유: 앱의 뼈대를 강사와 같은 최신 환경으로 준비
+- 결과: 기본 테스트(contextLoads) 통과, 서버 실행 후 localhost:8080에서 404 페이지 확인(아직 페이지 없음)

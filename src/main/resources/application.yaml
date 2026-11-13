@@ -1,0 +1,6 @@
+# application.yaml : 앱 설정 파일
+# 교재는 application.properties를 쓰지만, 이 프로젝트는 yaml을 쓴다.
+# (들여쓰기로 묶이므로 설정이 많아져도 읽기 쉽다)
+spring:
+  application:
+    name: sbb

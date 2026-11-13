@@ -32,6 +32,10 @@ db_dev.mv.db
 db_dev.trace.db
 db_dev.lock.db
 
+### Claude Code ###
+# AI 도구가 서버 실행용으로 쓰는 개인 설정
+.claude/
+
 ### OS ###
 .DS_Store
 Thumbs.db
