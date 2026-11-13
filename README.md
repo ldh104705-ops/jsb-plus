@@ -37,3 +37,10 @@
 - 작업: Spring Initializr로 프로젝트 생성 (Boot 4.1.2, Java 25, Gradle Kotlin DSL, Web·Lombok·DevTools), 설정 파일을 yaml로 변경, 학습용 주석 추가
 - 이유: 앱의 뼈대를 강사와 같은 최신 환경으로 준비
 - 결과: 기본 테스트(contextLoads) 통과, 서버 실행 후 localhost:8080에서 404 페이지 확인(아직 페이지 없음)
+
+### 000-02 프로젝트 준비, 진행 방식을 기능 단위 승인으로 변경
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/000-02)
+- 작업: PLAN.md 4장 "진행 순서"를 기능 단위 승인 + IntelliJ에서 코드 보기로 변경
+- 이유: 채팅창보다 IntelliJ에서 직접 코드를 보는 것이 이해에 유리하고, 기능 단위로 끊어도 이해 속도를 넘지 않음
+- 결과: 이후 기능부터 새 방식 적용
