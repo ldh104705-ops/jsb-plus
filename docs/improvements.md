@@ -12,4 +12,12 @@
 - 결과: 확인한 결과 (캡처: docs/captures/파일명.png)
 ```
 
-(아직 적용한 개선점이 없습니다.)
+## 1. 개발용 DB와 테스트용 DB 분리
+- 커밋: 003-01
+- 교재: `application.properties` 하나에 DB(`~/local`) 하나. 개발과 테스트가 같은 DB를 써서, 테스트를 돌리면 개발 데이터에 테스트 데이터가 섞인다.
+- 개선: 프로필로 설정 파일을 나눈다 (14163 5강)
+  - `application-dev.yaml`: `jdbc:h2:./db_dev` (파일, 서버를 꺼도 남음)
+  - `application-test.yaml`: `jdbc:h2:mem:db_test` (메모리, 테스트가 끝나면 사라짐)
+  - 테스트 클래스에 `@ActiveProfiles("test")`
+- 결과: 테스트 로그에 `profile is active: "test"`, `url=jdbc:h2:mem:db_test` / 서버 로그에 `profile is active: "dev"`, `url=jdbc:h2:./db_dev`
+  - 캡처: [H2 콘솔에서 개발 DB 접속](captures/003-h2-console-dev-db.jpg)

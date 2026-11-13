@@ -1,0 +1,9 @@
+# application-test.yaml : 테스트할 때만 적용되는 설정 (test 프로필)
+spring:
+  datasource:
+    # mem:db_test = "메모리"에 저장 → 테스트가 끝나면 사라진다
+    # 테스트가 개발용 DB(db_dev)를 건드리지 않는다
+    url: jdbc:h2:mem:db_test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver

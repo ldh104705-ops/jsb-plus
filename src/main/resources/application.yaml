@@ -1,6 +1,44 @@
-# application.yaml : 앱 설정 파일
+# application.yaml : 공통 설정 (개발/테스트 어느 쪽이든 항상 적용)
 # 교재는 application.properties를 쓰지만, 이 프로젝트는 yaml을 쓴다.
 # (들여쓰기로 묶이므로 설정이 많아져도 읽기 쉽다)
 spring:
   application:
     name: sbb
+  output:
+    ansi:
+      # 콘솔 로그에 색을 입힌다 (SQL 로그를 읽기 쉽게)
+      enabled: always
+  profiles:
+    # 따로 지정하지 않으면 dev(개발) 프로필로 실행한다
+    # → application-dev.yaml 설정이 추가로 적용됨
+    # (테스트는 @ActiveProfiles("test")로 test 프로필을 쓴다 → application-test.yaml)
+    active: dev
+  datasource:
+    hikari:
+      # hikari = DB 연결을 미리 만들어 두고 빌려주는 도구(커넥션 풀)
+      # SQL마다 바로 확정(auto-commit)하지 않고, 트랜잭션이 끝날 때만 확정한다
+      # (docs/decisions.md D-001 참고)
+      auto-commit: false
+  jpa:
+    # JPA가 만든 SQL을 콘솔에 출력
+    show-sql: true
+    hibernate:
+      # 엔티티(자바 클래스)를 보고 테이블을 자동으로 만들거나 고친다
+      ddl-auto: update
+    properties:
+      hibernate:
+        # SQL을 보기 좋게 줄바꿈
+        format_sql: true
+        # SQL 키워드에 색 입히기
+        highlight_sql: true
+        # 어떤 작업 때문에 나온 SQL인지 주석으로 표시
+        use_sql_comments: true
+
+logging:
+  level:
+    # SQL의 ? 자리에 실제로 들어간 값을 보여준다
+    org.hibernate.orm.jdbc.bind: TRACE
+    # 조회 결과로 받아온 값을 보여준다
+    org.hibernate.orm.jdbc.extract: TRACE
+    # 트랜잭션이 언제 시작/종료되는지 보여준다
+    org.springframework.transaction.interceptor: TRACE

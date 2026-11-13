@@ -2,7 +2,11 @@ package com.mysite.sbb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+// @ActiveProfiles("test") : 이 테스트는 test 프로필로 실행한다
+// → application-test.yaml이 적용되어 메모리 DB(mem:db_test)를 쓴다 (개발 DB와 분리)
+@ActiveProfiles("test")
 // @SpringBootTest : 테스트할 때 스프링부트 앱 전체를 실제로 띄운다
 @SpringBootTest
 class SbbApplicationTests {

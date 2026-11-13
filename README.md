@@ -52,3 +52,11 @@
 - 작업: MainController에 `/`, `/hello` 추가, `@ResponseBody`로 문자열 응답
 - 이유: 주소와 메서드를 연결하는 방법(@GetMapping)과 요청 흐름(DispatcherServlet → 컨트롤러 → 응답) 이해
 - 결과: (실험) void 반환 시 메서드는 실행되지만 500 에러(Circular view path) / `@ResponseBody` 적용 후 `/` → "SBB", `/hello` → "안녕하세요 ^ ^" 확인
+
+### 003-01 DB 설정, 완료, H2·JPA·개발/테스트 설정 분리
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/003-01)
+- 교재: 2-03 / 강의: 14163 5~6강
+- 작업: H2·H2 콘솔·JPA 의존성 추가, 설정을 공통/dev/test 3개 파일로 분리, SQL 로그·auto-commit false 설정
+- 이유: 질문·답변을 저장할 DB 준비. ⭐개선: 테스트가 개발 DB를 건드리지 않도록 분리 ([개선점 1](docs/improvements.md))
+- 결과: 테스트는 메모리 DB(`mem:db_test`), 서버는 파일 DB(`./db_dev`) 사용 확인, H2 콘솔 접속 확인, `db_dev.mv.db`는 git에서 제외됨

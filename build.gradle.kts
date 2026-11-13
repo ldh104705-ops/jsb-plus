@@ -36,8 +36,17 @@ dependencies {
     // DevTools: 코드를 고치면 서버를 자동 재시작 (개발할 때만 사용)
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+    // JPA: 자바 객체를 저장하면 SQL을 대신 만들어 주는 "통역사"
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // H2: 설치 없이 파일/메모리로 동작하는 가벼운 DB (실행할 때만 필요 → runtimeOnly)
+    runtimeOnly("com.h2database:h2")
+    // H2 콘솔: 브라우저에서 DB 안을 들여다보는 화면 (Boot 4에서 별도 모듈로 분리됨)
+    implementation("org.springframework.boot:spring-boot-h2console")
+
     // 테스트용 라이브러리
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testCompileOnly("org.projectlombok:lombok")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testAnnotationProcessor("org.projectlombok:lombok")
