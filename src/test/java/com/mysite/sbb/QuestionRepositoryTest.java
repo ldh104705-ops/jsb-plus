@@ -165,8 +165,10 @@ class QuestionRepositoryTest {
 
         // [실험, 006-14] 답변만 조회했는데, 질문은 언제 DB에서 가져올까?
         //   @ManyToOne의 기본값은 EAGER(즉시 로딩)
-        //   → 위 findById에서 answer와 question을 JOIN해서 "한 번에" 다 가져온다
+        //   → 위 findById에서 answer와 question을 JOIN해서 "한 번에" 다 가져왔다
         //   → 질문을 쓰지 않는 화면에서도 매번 질문까지 가져오는 낭비
+        // [해결, 006-15] Answer.question을 LAZY로 변경
+        //   → 위 findById에는 answer만 조회되고, 아래 getSubject()를 부르는 "이 순간" question을 조회한다
         assertThat(answer.getQuestion().getSubject()).isEqualTo("스프링부트 모델 질문입니다.");
     }
 

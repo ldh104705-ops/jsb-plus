@@ -105,3 +105,11 @@
   - (실험) 목록 초기화 없음 → `NullPointerException: this.answers is null`
   - (실험) 목록만 초기화, PERSIST 없음 → 답변이 저장되지 않음 (id 0)
   - (해결) PERSIST 추가 → 질문만 save해도 답변 insert 실행. AnswerRepository가 필요 없어짐
+
+## 8. @ManyToOne을 LAZY로 (필요할 때만 조회)
+- 커밋: 006-14(실험), 006-15(해결)
+- 교재: `@ManyToOne` 기본값(EAGER) 그대로 사용
+- 개선: `@ManyToOne(fetch = FetchType.LAZY)` (14163 24~25강)
+- 결과
+  - (EAGER) 답변만 조회해도 `from answer a1_0 left join question q1_0 ...` → 질문까지 매번 JOIN
+  - (LAZY) `from answer a1_0 where a1_0.id=?` → 답변만 조회. `answer.getQuestion().getSubject()`를 부르는 순간 question을 따로 조회
