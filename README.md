@@ -107,3 +107,11 @@
 - 작업: `JpaRepository`를 상속한 QuestionRepository, AnswerRepository 인터페이스 추가
 - 이유: 엔티티를 저장/조회/수정/삭제할 창구. 인터페이스만 만들면 스프링이 구현을 자동 생성
 - 결과: 앱 시작 로그에 "Found 2 JPA repository interfaces", 테스트 통과
+
+### 006-02 리포지터리 + 테스트, 앱 시작 시 초기 데이터 생성
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-02)
+- 교재: 2-05 / 강의: 14163 14강, 14168 2강
+- 작업: BaseInitData 추가 (`ApplicationRunner`로 앱 시작 직후 질문 2개, 답변 1개 저장, 이미 있으면 건너뜀)
+- 이유: 교재는 테스트 메서드 안에서 그때그때 저장 → 앱 시작 시 기준 데이터를 일관되게 넣어 두고 테스트가 그걸 기준으로 확인
+- 결과: 테스트 로그에 question 2건, answer 1건(question_id=2) insert 확인
