@@ -44,3 +44,11 @@
 - 작업: PLAN.md 4장 "진행 순서"를 기능 단위 승인 + IntelliJ에서 코드 보기로 변경
 - 이유: 채팅창보다 IntelliJ에서 직접 코드를 보는 것이 이해에 유리하고, 기능 단위로 끊어도 이해 속도를 넘지 않음
 - 결과: 이후 기능부터 새 방식 적용
+
+### 002-01 첫 컨트롤러, 완료, MainController와 @ResponseBody
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/002-01)
+- 교재: 2-02 / 강의: 14163 3~4강
+- 작업: MainController에 `/`, `/hello` 추가, `@ResponseBody`로 문자열 응답
+- 이유: 주소와 메서드를 연결하는 방법(@GetMapping)과 요청 흐름(DispatcherServlet → 컨트롤러 → 응답) 이해
+- 결과: (실험) void 반환 시 메서드는 실행되지만 500 에러(Circular view path) / `@ResponseBody` 적용 후 `/` → "SBB", `/hello` → "안녕하세요 ^ ^" 확인
