@@ -138,6 +138,16 @@ class QuestionRepositoryTest {
     }
 
     @Test
+    @DisplayName("답변 추가 (question.addAnswer로)")
+    void t9() {
+        // 새 질문을 만들고, 질문에게 답변을 달게 한다
+        Question question = new Question("새 질문", "새 질문 내용");
+        question.addAnswer("새 답변");
+
+        assertThat(question.getAnswers()).hasSize(1);
+    }
+
+    @Test
     @DisplayName("답변 조회 (AnswerRepository로)")
     void t10() {
         // SELECT * FROM answer WHERE id = 1

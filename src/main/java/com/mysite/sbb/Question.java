@@ -57,4 +57,16 @@ public class Question extends BaseEntity {
         this.subject = subject;
         this.content = content;
     }
+
+    // 질문에 답변 추가 (006-09)
+    // 답변을 따로 만들어 AnswerRepository로 저장하는 대신, "질문에 답변을 단다"는 행동을 질문에게 맡긴다
+    // → AnswerRepository를 몰라도 되고, 더 객체지향적이다 (14163 21강)
+    //
+    // [실험(실패)] answers 목록을 초기화하지 않으면?
+    //   → new Question(...)으로 막 만든 질문은 answers가 null → answers.add()에서 NullPointerException
+    public Answer addAnswer(String content) {
+        Answer answer = new Answer(this, content);
+        answers.add(answer);
+        return answer;
+    }
 }

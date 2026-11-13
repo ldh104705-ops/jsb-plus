@@ -163,3 +163,11 @@
 - 작업: 테스트 t8(답변을 만들어 answerRepository.save), t10(answerRepository.findById)
 - 이유: 교재 방식의 답변 저장을 먼저 익히고, 다음 커밋들에서 질문을 통해 답변을 추가하는 방식과 비교
 - 결과: 답변 count 1 → 2, 1번 답변 내용 확인, 테스트 9개 통과
+
+### 006-09 리포지터리 + 테스트, 실험(실패), addAnswer에서 NullPointerException
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-09)
+- 교재: 2-05 / 강의: 14163 21~23강
+- 작업: Question에 `addAnswer(content)` 추가, 테스트 t9(새 질문에 답변 추가)
+- 이유: 답변 추가를 질문에게 맡기는 객체지향 방식 시도. answers 목록을 초기화하지 않으면 어떻게 되는지 확인
+- 결과: ⚠️ 테스트 실패(의도함). `NullPointerException: ... because this.answers is null`
