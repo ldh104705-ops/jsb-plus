@@ -67,3 +67,11 @@
 - 작업: PLAN.md 진행 순서 수정 (검증은 테스트로, 코드는 학습용 클론으로 보기)
 - 이유: 이미 아는 동작을 매번 서버로 확인하는 건 불필요한 부담. 서버 실행은 필요할 때 직접 함
 - 결과: 이후 기능부터 적용
+
+### 004-01 엔티티, 완료, Question·Answer 엔티티와 연관관계
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/004-01)
+- 교재: 2-04 / 강의: 14163 7~13강
+- 작업: Question(id, createDate, subject, content, answers), Answer(id, createDate, question, content) 엔티티 추가, `@ManyToOne` / `@OneToMany(mappedBy, cascade=REMOVE)` 연관관계
+- 이유: 질문·답변을 저장할 테이블 정의, 객체(서로 참조)와 테이블(외래키) 사이의 패러다임 불일치를 JPA가 어떻게 연결하는지 이해
+- 결과: 테스트 SQL 로그에서 `question`, `answer(question_id FK)` 테이블 생성 확인 / (실험) `mappedBy`를 빼면 불필요한 `question_answers` 중간 테이블이 추가로 생성됨
