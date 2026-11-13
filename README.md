@@ -75,3 +75,11 @@
 - 작업: Question(id, createDate, subject, content, answers), Answer(id, createDate, question, content) 엔티티 추가, `@ManyToOne` / `@OneToMany(mappedBy, cascade=REMOVE)` 연관관계
 - 이유: 질문·답변을 저장할 테이블 정의, 객체(서로 참조)와 테이블(외래키) 사이의 패러다임 불일치를 JPA가 어떻게 연결하는지 이해
 - 결과: 테스트 SQL 로그에서 `question`, `answer(question_id FK)` 테이블 생성 확인 / (실험) `mappedBy`를 빼면 불필요한 `question_answers` 중간 테이블이 추가로 생성됨
+
+### 005-01 BaseEntity, 시작, 공통 칸(id, createDate)을 BaseEntity로 모음
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/005-01)
+- 교재: (없음, 개선) / 강의: 14168 2강
+- 작업: `@MappedSuperclass` BaseEntity에 id, createDate를 두고 Question·Answer가 상속
+- 이유: 엔티티마다 반복되던 코드 제거, 앞으로 늘어날 엔티티(회원, 댓글 등) 대비
+- 결과: 테스트 SQL 로그의 question/answer 테이블 구조가 이전과 동일, base_entity 테이블은 생기지 않음

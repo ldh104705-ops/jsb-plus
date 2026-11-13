@@ -2,24 +2,16 @@ package com.mysite.sbb;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 // @Entity : "이 클래스는 DB 테이블과 연결된다"는 표시
 // 엑셀로 치면 시트 양식. 필드 하나 = 열 하나, 객체 하나 = 행 하나
 // ddl-auto: update 설정 덕분에 JPA가 question 테이블을 자동으로 만든다
+//
+// extends BaseEntity : id, createDate는 BaseEntity에서 물려받는다
+// (005-01: Question·Answer에 똑같이 반복되던 코드를 BaseEntity로 모음)
 @Entity
-public class Question {
-    // @Id : 행을 구분하는 번호(기본키, PK)
-    // @GeneratedValue(IDENTITY) : 번호를 DB가 1, 2, 3... 자동으로 매긴다
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private int id;
-
-    private LocalDateTime createDate;
-
+public class Question extends BaseEntity {
     // 제목: 최대 200자 → varchar(200)
     @Column(length = 200)
     private String subject;
