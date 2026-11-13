@@ -48,4 +48,13 @@ public class Question extends BaseEntity {
         this.subject = subject;
         this.content = content;
     }
+
+    // 질문 수정 (006-07)
+    // setSubject(), setContent()처럼 아무 칸이나 바꾸는 문을 여는 대신,
+    // "질문을 수정한다"는 의미 있는 행동 하나만 허용한다
+    // (원래 028 질문 수정에서 만들 예정이었지만, 006의 수정 테스트에 필요해서 먼저 만듦)
+    public void modify(String subject, String content) {
+        this.subject = subject;
+        this.content = content;
+    }
 }

@@ -68,3 +68,16 @@
 - 결과
   - (실험) 롤백 없이 삭제 테스트를 먼저 실행 → 다른 테스트 5개 실패 (`Expected size: 2 but was: 1`, `No value present`)
   - (해결) `@Transactional` 추가 후, 삭제를 먼저 실행해도 6개 모두 통과
+
+## 6. 수정할 때 save() 없이 더티체킹
+- 커밋: 006-07
+- 교재: 값을 바꾼 뒤 `save()`를 다시 호출
+  ```java
+  q.setSubject("수정된 제목");
+  this.questionRepository.save(q);
+  ```
+- 개선: 의미 있는 수정 메서드 + 트랜잭션 안에서 값만 변경 (14163 18강, 14168 32강)
+  ```java
+  question.modify("수정된 제목", "수정된 내용"); // save() 없음
+  ```
+- 결과: save()를 부르지 않아도 JPA가 바뀐 것을 감지해 `update question set ... subject=?` 실행

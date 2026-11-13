@@ -147,3 +147,11 @@
 - 작업: QuestionRepositoryTest 클래스에 `@Transactional` → 각 테스트가 끝나면 롤백
 - 이유: 테스트가 남긴 변경(삭제·수정)이 다른 테스트에 영향을 주지 않게 (테스트 독립성)
 - 결과: 삭제 테스트를 여전히 먼저 실행해도 6개 테스트 모두 통과 ([개선점 5](docs/improvements.md))
+
+### 006-07 리포지터리 + 테스트, 질문 수정 modify()와 더티체킹
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-07)
+- 교재: 2-05 / 강의: 14163 18강, 14168 32강
+- 작업: Question에 `modify(subject, content)` 추가, 수정 테스트 t6 (save 호출 없이 flush만)
+- 이유: Setter 대신 의미 있는 수정 메서드 사용. 트랜잭션 안에서 값만 바꾸면 JPA가 알아서 UPDATE하는 더티체킹 이해
+- 결과: `save()`를 부르지 않았는데 SQL 로그에 `update question set ... subject=?` ← [수정된 제목] 확인, 테스트 통과

@@ -85,6 +85,25 @@ class QuestionRepositoryTest {
         assertThat(questions.get(0).getSubject()).isEqualTo("sbb가 무엇인가요?");
     }
 
+    @Test
+    @DisplayName("modify : 수정 (더티체킹)")
+    void t6() {
+        Question question = questionRepository.findById(1).get();
+
+        // 값만 바꾼다. save()를 부르지 않는다!
+        question.modify("수정된 제목", "수정된 내용");
+
+        // flush : 지금까지 바뀐 내용을 SQL로 만들어 DB에 보낸다 (로그에서 UPDATE를 보기 위해 호출)
+        // 더티체킹 : JPA는 처음 조회했을 때의 모습을 기억해 두었다가,
+        //           flush/커밋 시점에 지금 모습과 비교해서 바뀐 게 있으면 UPDATE를 알아서 보낸다
+        //   비유: 문서 편집기의 자동 저장. 고치기만 하면 저장 버튼을 안 눌러도 반영된다
+        // (교재는 수정 후 questionRepository.save(q)를 다시 호출)
+        questionRepository.flush();
+
+        Question foundQuestion = questionRepository.findBySubject("수정된 제목").get();
+        assertThat(foundQuestion.getContent()).isEqualTo("수정된 내용");
+    }
+
     // [실험(실패), 006-05] 롤백 없이 삭제 테스트가 먼저 실행되면?
     //   → 1번 질문이 DB에서 "진짜로" 지워진 채로 남아, 1번 질문이 있다고 믿는 t1~t5가 줄줄이 실패했다
     // [해결, 006-06] 클래스에 @Transactional → 이 테스트가 끝나면 삭제가 롤백되어 1번 질문이 돌아온다
