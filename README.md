@@ -195,3 +195,11 @@
 - 작업: BaseInitData가 AnswerRepository 대신 `q2.addAnswer()` 사용, work1()에 `@Transactional` 추가 (같은 클래스에서 직접 호출)
 - 이유: 초기 데이터 생성 전체를 트랜잭션 하나로 묶으려는 시도. 같은 클래스 안의 직접 호출에서도 적용되는지 확인
 - 결과: 테스트는 통과하지만, 트랜잭션 로그에 `BaseInitData.work1`이 없고 `count`, `save`가 각자 트랜잭션을 염 → @Transactional 미적용
+
+### 006-13 리포지터리 + 테스트, self(프록시)로 호출해 초기 데이터를 트랜잭션 하나로
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-13)
+- 교재: (없음) / 강의: 14163 27강, 14168 33강
+- 작업: `@Autowired @Lazy BaseInitData self` 주입, `self.work1()`로 호출
+- 이유: 스프링은 프록시(대리인)를 거쳐야 @Transactional을 적용함. 같은 클래스 안의 직접 호출은 프록시를 거치지 않음
+- 결과: 트랜잭션 로그에 `BaseInitData$$SpringCGLIB$$0.work1` 시작 → 그 안에서 count, save 실행 → work1 종료 확인
