@@ -123,3 +123,11 @@
 - 작업: QuestionRepositoryTest 추가 (t1 findAll, t2 findById), AssertJ `assertThat` 사용
 - 이유: 교재처럼 테스트 메서드 하나를 계속 고치지 않고, 실습마다 t1, t2...로 쌓아 학습 과정을 보존
 - 결과: 테스트 통과 (전체 2건, 1번 질문 제목 확인)
+
+### 006-04 리포지터리 + 테스트, 쿼리 메서드 (findBySubject, AndContent, Like)
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-04)
+- 교재: 2-05 / 강의: 14163 16~17강
+- 작업: QuestionRepository에 `findBySubject`, `findBySubjectAndContent`, `findBySubjectLike` 선언, 테스트 t3~t5
+- 이유: 메서드 이름 규칙만으로 SQL이 만들어지는 쿼리 메서드 이해
+- 결과: SQL 로그에서 `where subject=?`, `where subject=? and content=?`, `where subject like ?` 확인, 테스트 통과
