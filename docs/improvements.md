@@ -81,3 +81,27 @@
   question.modify("수정된 제목", "수정된 내용"); // save() 없음
   ```
 - 결과: save()를 부르지 않아도 JPA가 바뀐 것을 감지해 `update question set ... subject=?` 실행
+
+## 7. 질문을 통해 답변 추가 (addAnswer + cascade PERSIST)
+- 커밋: 006-09(실험), 006-10(실험), 006-11(해결)
+- 교재: 답변을 따로 만들어 Setter로 채우고 AnswerRepository(나중엔 AnswerService)로 저장
+  ```java
+  Answer answer = new Answer();
+  answer.setContent(content);
+  answer.setQuestion(question);
+  answer.setCreateDate(LocalDateTime.now());
+  this.answerRepository.save(answer);
+  ```
+- 개선: 질문에게 답변 추가를 맡김 (14163 21·23강)
+  ```java
+  private List<Answer> answers = new ArrayList<>();          // 목록 미리 생성
+  @OneToMany(mappedBy = "question", cascade = {PERSIST, REMOVE})
+  public Answer addAnswer(String content) { ... answers.add(answer); ... }
+
+  question.addAnswer("새 답변");
+  questionRepository.save(question);                          // 답변도 같이 저장됨
+  ```
+- 결과
+  - (실험) 목록 초기화 없음 → `NullPointerException: this.answers is null`
+  - (실험) 목록만 초기화, PERSIST 없음 → 답변이 저장되지 않음 (id 0)
+  - (해결) PERSIST 추가 → 질문만 save해도 답변 insert 실행. AnswerRepository가 필요 없어짐

@@ -179,3 +179,11 @@
 - 작업: answers를 `new ArrayList<>()`로 초기화, t9에 "질문만 save → 답변도 저장됐는지" 확인 추가
 - 이유: NullPointerException 해결 후, 질문만 저장하면 답변도 같이 저장되는지 확인
 - 결과: ⚠️ 테스트 실패(의도함). NPE는 사라졌지만 `Expecting actual: 0 to be greater than: 0` → 답변이 저장되지 않음 (cascade PERSIST 없음)
+
+### 006-11 리포지터리 + 테스트, cascade PERSIST로 질문과 답변을 함께 저장
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-11)
+- 교재: 2-05 / 강의: 14163 21강
+- 작업: `cascade = {PERSIST, REMOVE}`
+- 이유: 질문을 저장하면 목록에 새로 추가된 답변도 같이 저장되도록 (저장을 답변에게 전파)
+- 결과: 질문만 save했는데 SQL 로그에 질문 insert + 답변 insert("새 답변") 실행, 테스트 10개 통과 ([개선점 7](docs/improvements.md))

@@ -35,7 +35,9 @@ public class Question extends BaseEntity {
     // @OneToMany : 질문(One) 하나에 답변(Many) 여러 개
     // mappedBy = "question" : 관계의 진짜 기록은 Answer.question(question_id 칸)에 있다.
     //                         여기는 그걸 "비춰 보는 거울"일 뿐, DB에 칸을 만들지 않는다
-    // cascade = REMOVE : 질문을 지우면 달린 답변도 같이 지운다
+    // cascade : 질문에 한 일을 답변에게도 "전파"한다 (비유: 세트 배송)
+    //   PERSIST : 질문을 저장하면 목록에 새로 들어간 답변도 같이 저장한다 (006-11)
+    //   REMOVE  : 질문을 지우면 달린 답변도 같이 지운다
     //
     // [실험] mappedBy를 빼면?
     //   → JPA가 관계를 두 개로 착각해서 question_answers 라는 중간 테이블을 추가로 만든다 (불필요)
@@ -46,7 +48,8 @@ public class Question extends BaseEntity {
     //
     // [실험(실패), 006-10] cascade에 PERSIST가 없으면?
     //   → 질문만 save()하면 답변은 저장되지 않는다 (답변 id가 0 그대로)
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    // [해결, 006-11] cascade에 PERSIST 추가
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 
     // 질문을 만들 때 필요한 값(제목, 내용)을 한 번에 받는 생성자
@@ -70,8 +73,9 @@ public class Question extends BaseEntity {
     // 답변을 따로 만들어 AnswerRepository로 저장하는 대신, "질문에 답변을 단다"는 행동을 질문에게 맡긴다
     // → AnswerRepository를 몰라도 되고, 더 객체지향적이다 (14163 21강)
     //
-    // [실험(실패)] answers 목록을 초기화하지 않으면?
+    // [실험(실패), 006-09] answers 목록을 초기화하지 않으면?
     //   → new Question(...)으로 막 만든 질문은 answers가 null → answers.add()에서 NullPointerException
+    //   → 006-10에서 목록 초기화, 006-11에서 cascade PERSIST로 저장까지 해결
     public Answer addAnswer(String content) {
         Answer answer = new Answer(this, content);
         answers.add(answer);
