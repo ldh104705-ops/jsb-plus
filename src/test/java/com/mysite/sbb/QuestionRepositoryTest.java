@@ -1,7 +1,10 @@
 package com.mysite.sbb;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -17,6 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 // 기준 데이터(BaseInitData): 1번 질문 "sbb가 무엇인가요?", 2번 질문 "스프링부트 모델 질문입니다." + 답변 1개
 @ActiveProfiles("test")
 @SpringBootTest
+// JUnit은 테스트 실행 순서를 보장하지 않는다. (오늘은 마지막이었던 테스트가 내일은 처음일 수 있다)
+// 실험을 위해 @Order가 붙은 테스트(삭제 t7)를 "강제로 먼저" 실행시킨다
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class QuestionRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
@@ -71,5 +77,21 @@ class QuestionRepositoryTest {
         List<Question> questions = questionRepository.findBySubjectLike("sbb%");
 
         assertThat(questions.get(0).getSubject()).isEqualTo("sbb가 무엇인가요?");
+    }
+
+    // [실험(실패)] 삭제 테스트가 먼저 실행되면?
+    //   → 1번 질문이 DB에서 "진짜로" 지워진 채로 남는다 (되돌리는 장치가 없음)
+    //   → 1번 질문이 있다고 믿는 t1~t5가 줄줄이 실패한다
+    @Test
+    @Order(1)
+    @DisplayName("delete : 삭제")
+    void t7() {
+        assertThat(questionRepository.count()).isEqualTo(2);
+
+        // DELETE FROM question WHERE id = 1
+        Question question = questionRepository.findById(1).get();
+        questionRepository.delete(question);
+
+        assertThat(questionRepository.count()).isEqualTo(1);
     }
 }

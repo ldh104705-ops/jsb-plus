@@ -131,3 +131,11 @@
 - 작업: QuestionRepository에 `findBySubject`, `findBySubjectAndContent`, `findBySubjectLike` 선언, 테스트 t3~t5
 - 이유: 메서드 이름 규칙만으로 SQL이 만들어지는 쿼리 메서드 이해
 - 결과: SQL 로그에서 `where subject=?`, `where subject=? and content=?`, `where subject like ?` 확인, 테스트 통과
+
+### 006-05 리포지터리 + 테스트, 실험(실패), 삭제 테스트가 다른 테스트를 깨뜨림
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-05)
+- 교재: 2-05 / 강의: 14163 18~19강
+- 작업: 삭제 테스트 t7 추가, 실험을 위해 `@Order(1)`로 삭제 테스트를 강제로 먼저 실행
+- 이유: 테스트가 DB를 바꾼 채로 끝나면 다른 테스트에 영향을 준다는 것을 직접 확인
+- 결과: ⚠️ 테스트 실패(의도함). 삭제 후 t1(2건 기대→1건), t2~t4(No value present), t5(빈 목록) 총 5개 실패
