@@ -155,3 +155,11 @@
 - 작업: Question에 `modify(subject, content)` 추가, 수정 테스트 t6 (save 호출 없이 flush만)
 - 이유: Setter 대신 의미 있는 수정 메서드 사용. 트랜잭션 안에서 값만 바꾸면 JPA가 알아서 UPDATE하는 더티체킹 이해
 - 결과: `save()`를 부르지 않았는데 SQL 로그에 `update question set ... subject=?` ← [수정된 제목] 확인, 테스트 통과
+
+### 006-08 리포지터리 + 테스트, 답변 저장·조회 (AnswerRepository)
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-08)
+- 교재: 2-05 / 강의: 14163 20강
+- 작업: 테스트 t8(답변을 만들어 answerRepository.save), t10(answerRepository.findById)
+- 이유: 교재 방식의 답변 저장을 먼저 익히고, 다음 커밋들에서 질문을 통해 답변을 추가하는 방식과 비교
+- 결과: 답변 count 1 → 2, 1번 답변 내용 확인, 테스트 9개 통과

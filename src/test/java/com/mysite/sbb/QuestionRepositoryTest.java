@@ -33,6 +33,9 @@ class QuestionRepositoryTest {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private AnswerRepository answerRepository;
+
     @Test
     @DisplayName("findAll : 전체 조회")
     void t1() {
@@ -118,5 +121,28 @@ class QuestionRepositoryTest {
         questionRepository.delete(question);
 
         assertThat(questionRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("답변 저장 (AnswerRepository로)")
+    void t8() {
+        Question question = questionRepository.findById(2).get();
+
+        // 답변을 만들어 AnswerRepository로 직접 저장하는 방식 (교재 방식)
+        // INSERT INTO answer (content, question_id, ...) VALUES ('...', 2, ...)
+        Answer answer = new Answer(question, "네 자동으로 생성됩니다.");
+        answerRepository.save(answer);
+
+        // 기준 데이터의 답변 1개 + 방금 저장한 1개
+        assertThat(answerRepository.count()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("답변 조회 (AnswerRepository로)")
+    void t10() {
+        // SELECT * FROM answer WHERE id = 1
+        Answer answer = answerRepository.findById(1).get();
+
+        assertThat(answer.getContent()).isEqualTo("네 자동으로 생성됩니다.");
     }
 }
