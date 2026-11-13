@@ -99,3 +99,11 @@
 - 작업: Question·Answer에 `@Getter`, `@NoArgsConstructor`, 값을 받는 생성자 추가 (Setter 없음), 개선점 2~4 기록
 - 이유: Setter가 있으면 어디서든 값을 바꿀 수 있음 → 만들 때 생성자로만 값을 넣고, 변경은 이후 이름 있는 메서드로만
 - 결과: `new Question("제목", "내용")`으로 저장 시 제목·내용·날짜가 모두 정상 저장 (테스트 통과)
+
+### 006-01 리포지터리 + 테스트, 시작, QuestionRepository·AnswerRepository 추가
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-01)
+- 교재: 2-05 / 강의: 14163 14강
+- 작업: `JpaRepository`를 상속한 QuestionRepository, AnswerRepository 인터페이스 추가
+- 이유: 엔티티를 저장/조회/수정/삭제할 창구. 인터페이스만 만들면 스프링이 구현을 자동 생성
+- 결과: 앱 시작 로그에 "Found 2 JPA repository interfaces", 테스트 통과
