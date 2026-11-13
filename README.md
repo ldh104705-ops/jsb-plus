@@ -83,3 +83,11 @@
 - 작업: `@MappedSuperclass` BaseEntity에 id, createDate를 두고 Question·Answer가 상속
 - 이유: 엔티티마다 반복되던 코드 제거, 앞으로 늘어날 엔티티(회원, 댓글 등) 대비
 - 결과: 테스트 SQL 로그의 question/answer 테이블 구조가 이전과 동일, base_entity 테이블은 생기지 않음
+
+### 005-02 BaseEntity, JPA Auditing으로 작성일·수정일 자동 기록
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/005-02)
+- 교재: (없음, 개선) / 강의: 14168 2강
+- 작업: `@EnableJpaAuditing`, BaseEntity에 `@CreatedDate`·`@LastModifiedDate`(modifyDate 추가)·`@Getter`, BaseEntityTest 추가
+- 이유: 교재처럼 저장할 때마다 `LocalDateTime.now()`를 직접 넣으면 깜빡할 수 있음 → JPA가 자동으로 기록
+- 결과: 날짜를 넣지 않고 저장했는데 insert SQL에 create_date, modify_date 값이 자동으로 들어감 (테스트 통과)
