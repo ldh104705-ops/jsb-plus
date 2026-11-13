@@ -1,5 +1,7 @@
 package com.mysite.sbb;
 
+import com.mysite.sbb.question.Question;
+import com.mysite.sbb.question.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;

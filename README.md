@@ -219,3 +219,11 @@
 - 작업: `Answer.question`에 `fetch = FetchType.LAZY`
 - 이유: EAGER는 질문이 필요 없을 때도 매번 JOIN해서 가져옴 → 실제로 쓸 때만 조회
 - 결과: 답변 조회 SQL에서 JOIN이 사라지고(`from answer a1_0 where a1_0.id=?`), 질문 제목을 쓰는 순간 question을 따로 조회. 테스트 13개 통과 ([개선점 8](docs/improvements.md))
+
+### 007-01 도메인별 패키지, 완료, question·answer 패키지로 분리
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/007-01)
+- 교재: 2-06 / 강의: 14163 26강
+- 작업: Question·QuestionRepository → `question` 패키지, Answer·AnswerRepository → `answer` 패키지, QuestionRepositoryTest → 테스트 `question` 패키지 (공통 클래스는 최상위 유지)
+- 이유: 컨트롤러·서비스·폼이 늘어날 것에 대비해 기능별로 파일을 모아 찾기 쉽게
+- 결과: 코드 내용 변경 없이 위치와 import만 변경, 테스트 13개 그대로 통과

@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import com.mysite.sbb.question.Question;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
