@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // @Entity : "이 클래스는 DB 테이블과 연결된다"는 표시
@@ -38,8 +39,15 @@ public class Question extends BaseEntity {
     //
     // [실험] mappedBy를 빼면?
     //   → JPA가 관계를 두 개로 착각해서 question_answers 라는 중간 테이블을 추가로 만든다 (불필요)
+    //
+    // = new ArrayList<>() : 목록을 미리 빈 리스트로 만들어 둔다 (006-10)
+    //   → new Question(...)으로 막 만든 질문도 바로 addAnswer() 가능 (006-09 NullPointerException 해결)
+    //   → DB에서 읽어 온 질문은 JPA가 자기 목록(PersistentBag)으로 바꿔 끼운다
+    //
+    // [실험(실패), 006-10] cascade에 PERSIST가 없으면?
+    //   → 질문만 save()하면 답변은 저장되지 않는다 (답변 id가 0 그대로)
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answers;
+    private List<Answer> answers = new ArrayList<>();
 
     // 질문을 만들 때 필요한 값(제목, 내용)을 한 번에 받는 생성자
     // 교재: new Question() 후 setSubject(), setContent(), setCreateDate()를 따로 호출

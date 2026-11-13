@@ -142,9 +142,17 @@ class QuestionRepositoryTest {
     void t9() {
         // 새 질문을 만들고, 질문에게 답변을 달게 한다
         Question question = new Question("새 질문", "새 질문 내용");
-        question.addAnswer("새 답변");
+        Answer answer = question.addAnswer("새 답변");
 
         assertThat(question.getAnswers()).hasSize(1);
+
+        // 질문만 저장한다. 답변은 따로 save()하지 않는다
+        questionRepository.save(question);
+
+        // cascade = PERSIST 덕분에 답변도 같이 저장되어 id를 받았다
+        assertThat(answer.getId()).isGreaterThan(0);
+        // 기준 데이터의 답변 1개 + 질문과 함께 저장된 1개
+        assertThat(answerRepository.count()).isEqualTo(2);
     }
 
     @Test

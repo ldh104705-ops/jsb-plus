@@ -171,3 +171,11 @@
 - 작업: Question에 `addAnswer(content)` 추가, 테스트 t9(새 질문에 답변 추가)
 - 이유: 답변 추가를 질문에게 맡기는 객체지향 방식 시도. answers 목록을 초기화하지 않으면 어떻게 되는지 확인
 - 결과: ⚠️ 테스트 실패(의도함). `NullPointerException: ... because this.answers is null`
+
+### 006-10 리포지터리 + 테스트, 실험(실패), 목록은 초기화했지만 답변이 저장되지 않음
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-10)
+- 교재: 2-05 / 강의: 14163 21·23강
+- 작업: answers를 `new ArrayList<>()`로 초기화, t9에 "질문만 save → 답변도 저장됐는지" 확인 추가
+- 이유: NullPointerException 해결 후, 질문만 저장하면 답변도 같이 저장되는지 확인
+- 결과: ⚠️ 테스트 실패(의도함). NPE는 사라졌지만 `Expecting actual: 0 to be greater than: 0` → 답변이 저장되지 않음 (cascade PERSIST 없음)
