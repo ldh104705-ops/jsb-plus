@@ -91,3 +91,11 @@
 - 작업: `@EnableJpaAuditing`, BaseEntity에 `@CreatedDate`·`@LastModifiedDate`(modifyDate 추가)·`@Getter`, BaseEntityTest 추가
 - 이유: 교재처럼 저장할 때마다 `LocalDateTime.now()`를 직접 넣으면 깜빡할 수 있음 → JPA가 자동으로 기록
 - 결과: 날짜를 넣지 않고 저장했는데 insert SQL에 create_date, modify_date 값이 자동으로 들어감 (테스트 통과)
+
+### 005-03 BaseEntity, 완료, Setter 없이 생성자로 엔티티 만들기
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/005-03)
+- 교재: (없음, 개선) / 강의: 14168 2강
+- 작업: Question·Answer에 `@Getter`, `@NoArgsConstructor`, 값을 받는 생성자 추가 (Setter 없음), 개선점 2~4 기록
+- 이유: Setter가 있으면 어디서든 값을 바꿀 수 있음 → 만들 때 생성자로만 값을 넣고, 변경은 이후 이름 있는 메서드로만
+- 결과: `new Question("제목", "내용")`으로 저장 시 제목·내용·날짜가 모두 정상 저장 (테스트 통과)

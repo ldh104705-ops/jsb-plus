@@ -1,6 +1,8 @@
 package com.mysite.sbb;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -8,9 +10,18 @@ import java.util.List;
 // 엑셀로 치면 시트 양식. 필드 하나 = 열 하나, 객체 하나 = 행 하나
 // ddl-auto: update 설정 덕분에 JPA가 question 테이블을 자동으로 만든다
 //
-// extends BaseEntity : id, createDate는 BaseEntity에서 물려받는다
+// extends BaseEntity : id, createDate, modifyDate는 BaseEntity에서 물려받는다
 // (005-01: Question·Answer에 똑같이 반복되던 코드를 BaseEntity로 모음)
+//
+// @Getter : 값을 "읽는" 메서드(getSubject() 등)만 만든다. 화면에 보여줄 때 필요
+// @Setter는 붙이지 않는다 (005-03, 14168 2강)
+//   → setter가 있으면 코드 어디서든 아무 때나 값을 바꿀 수 있다 (예: setId(999))
+//   → 값은 생성자로 "만들 때" 넣고, 바꾸는 건 나중에 modify() 같은 이름 있는 메서드로만
+// @NoArgsConstructor : 빈 생성자 Question()을 만든다
+//   → JPA가 DB에서 읽어 온 데이터로 객체를 만들 때 빈 생성자가 반드시 필요하다
 @Entity
+@Getter
+@NoArgsConstructor
 public class Question extends BaseEntity {
     // 제목: 최대 200자 → varchar(200)
     @Column(length = 200)
@@ -29,4 +40,12 @@ public class Question extends BaseEntity {
     //   → JPA가 관계를 두 개로 착각해서 question_answers 라는 중간 테이블을 추가로 만든다 (불필요)
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answers;
+
+    // 질문을 만들 때 필요한 값(제목, 내용)을 한 번에 받는 생성자
+    // 교재: new Question() 후 setSubject(), setContent(), setCreateDate()를 따로 호출
+    // 여기: new Question("제목", "내용") 한 줄. id·작성일은 JPA가 채운다
+    public Question(String subject, String content) {
+        this.subject = subject;
+        this.content = content;
+    }
 }

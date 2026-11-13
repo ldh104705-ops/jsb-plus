@@ -24,7 +24,8 @@ class BaseEntityTest {
     @Test
     @DisplayName("저장하면 createDate, modifyDate가 자동으로 채워진다")
     void t1() {
-        Question question = new Question();
+        // 생성자로 제목, 내용만 넣는다 (005-03). 날짜는 넣지 않는다
+        Question question = new Question("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
 
         // 저장 전: 날짜를 넣은 적이 없으니 비어 있다
         assertThat(question.getCreateDate()).isNull();
@@ -35,5 +36,7 @@ class BaseEntityTest {
         // 저장 후: 날짜를 직접 넣지 않았는데도 채워져 있다
         assertThat(question.getCreateDate()).isNotNull();
         assertThat(question.getModifyDate()).isNotNull();
+        // 생성자로 넣은 값도 그대로 저장되어 있다
+        assertThat(question.getSubject()).isEqualTo("sbb가 무엇인가요?");
     }
 }
