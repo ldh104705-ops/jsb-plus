@@ -115,3 +115,11 @@
 - 작업: BaseInitData 추가 (`ApplicationRunner`로 앱 시작 직후 질문 2개, 답변 1개 저장, 이미 있으면 건너뜀)
 - 이유: 교재는 테스트 메서드 안에서 그때그때 저장 → 앱 시작 시 기준 데이터를 일관되게 넣어 두고 테스트가 그걸 기준으로 확인
 - 결과: 테스트 로그에 question 2건, answer 1건(question_id=2) insert 확인
+
+### 006-03 리포지터리 + 테스트, 전체 조회·id 조회 테스트
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-03)
+- 교재: 2-05 / 강의: 14163 14~15강
+- 작업: QuestionRepositoryTest 추가 (t1 findAll, t2 findById), AssertJ `assertThat` 사용
+- 이유: 교재처럼 테스트 메서드 하나를 계속 고치지 않고, 실습마다 t1, t2...로 쌓아 학습 과정을 보존
+- 결과: 테스트 통과 (전체 2건, 1번 질문 제목 확인)
