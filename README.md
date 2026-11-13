@@ -187,3 +187,11 @@
 - 작업: `cascade = {PERSIST, REMOVE}`
 - 이유: 질문을 저장하면 목록에 새로 추가된 답변도 같이 저장되도록 (저장을 답변에게 전파)
 - 결과: 질문만 save했는데 SQL 로그에 질문 insert + 답변 insert("새 답변") 실행, 테스트 10개 통과 ([개선점 7](docs/improvements.md))
+
+### 006-12 리포지터리 + 테스트, 실험, 초기 데이터를 addAnswer로 + 내부 호출이라 @Transactional 미적용
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-12)
+- 교재: 2-05 / 강의: 14163 27강, 14168 33강
+- 작업: BaseInitData가 AnswerRepository 대신 `q2.addAnswer()` 사용, work1()에 `@Transactional` 추가 (같은 클래스에서 직접 호출)
+- 이유: 초기 데이터 생성 전체를 트랜잭션 하나로 묶으려는 시도. 같은 클래스 안의 직접 호출에서도 적용되는지 확인
+- 결과: 테스트는 통과하지만, 트랜잭션 로그에 `BaseInitData.work1`이 없고 `count`, `save`가 각자 트랜잭션을 염 → @Transactional 미적용
