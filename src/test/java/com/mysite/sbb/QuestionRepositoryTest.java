@@ -162,5 +162,23 @@ class QuestionRepositoryTest {
         Answer answer = answerRepository.findById(1).get();
 
         assertThat(answer.getContent()).isEqualTo("네 자동으로 생성됩니다.");
+
+        // [실험, 006-14] 답변만 조회했는데, 질문은 언제 DB에서 가져올까?
+        //   @ManyToOne의 기본값은 EAGER(즉시 로딩)
+        //   → 위 findById에서 answer와 question을 JOIN해서 "한 번에" 다 가져온다
+        //   → 질문을 쓰지 않는 화면에서도 매번 질문까지 가져오는 낭비
+        assertThat(answer.getQuestion().getSubject()).isEqualTo("스프링부트 모델 질문입니다.");
+    }
+
+    @Test
+    @DisplayName("답변 조회 (질문을 통해, question.getAnswers)")
+    void t11() {
+        Question question = questionRepository.findById(2).get();
+
+        // 질문에서 바로 답변 목록을 꺼낸다 (AnswerRepository 없이)
+        List<Answer> answers = question.getAnswers();
+
+        assertThat(answers).hasSize(1);
+        assertThat(answers.get(0).getContent()).isEqualTo("네 자동으로 생성됩니다.");
     }
 }

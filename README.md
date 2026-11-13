@@ -203,3 +203,11 @@
 - 작업: `@Autowired @Lazy BaseInitData self` 주입, `self.work1()`로 호출
 - 이유: 스프링은 프록시(대리인)를 거쳐야 @Transactional을 적용함. 같은 클래스 안의 직접 호출은 프록시를 거치지 않음
 - 결과: 트랜잭션 로그에 `BaseInitData$$SpringCGLIB$$0.work1` 시작 → 그 안에서 count, save 실행 → work1 종료 확인
+
+### 006-14 리포지터리 + 테스트, 실험, @ManyToOne 기본값(EAGER)은 답변 조회 때 질문까지 JOIN
+- 날짜: 2026-11-13
+- [링크](https://github.com/ldh104705-ops/jsb-plus/tree/006-14)
+- 교재: 2-05 / 강의: 14163 22강
+- 작업: t10에 답변의 질문 제목 확인 추가, t11(question.getAnswers()로 답변 조회) 추가
+- 이유: 답변을 조회할 때 연결된 질문은 언제 가져오는지 SQL 로그로 관찰
+- 결과: 테스트 통과. 답변만 조회했는데 `select ... from answer a1_0 left join question q1_0 ... where a1_0.id=?` → 질문까지 즉시 가져옴(EAGER)
